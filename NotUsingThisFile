@@ -1,0 +1,30 @@
+let getuserIdMap = async function(filePath){
+
+	return new Promise((resolve, reject) => {
+		let userIdMap = {};
+		var lineReader = require('readline').createInterface({
+  			input: require('fs').createReadStream(filePath)
+		});
+
+		lineReader.on('line', function (line) {
+  			let row =  line.split(":")
+  			userIdMap[row[0]] = row[2];
+		});
+
+ 		lineReader.on('close', function(line){
+ 			resolve(userIdMap)
+ 		})
+	}
+
+		
+}
+
+
+
+
+
+
+
+
+
+// detemrine last line catch a "close" event: rl.on('close', cb)
