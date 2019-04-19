@@ -1,26 +1,29 @@
-let getuserIdMap = function (filePath, callback){
+
+
+let getUserIdMap = async function(){
+
+	let processFile = require('./processFile');
 
 	let userIdMap = {};
-	var lineReader = require('readline').createInterface({
-  		input: require('fs').createReadStream(filePath)
-	});
-
-	lineReader.on('line', function (line) {
-  		let row =  line.split(":")
-  		userIdMap[row[0]] = row[2];
-	});
-
- 	lineReader.on('close', function(line){
- 		callback(userIdMap)
- 	})
+	let processLine = function(line){
+		let row =  line.split(":");
+  		userIdMap[row[2]] = row[0];
+		
+	}
 	
-}
-
-
-const userIdMap = getuserIdMap('./etc/passwd', function(userIdMap){
-   	console.log(userIdMap)
+	await processFile('./etc/passwd', processLine)
 	return userIdMap
-})
+	
+	
+}	
+
+module.exports = getUserIdMap
+
+
+	
+
+
+
 
 
 
